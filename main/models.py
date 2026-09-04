@@ -30,6 +30,7 @@ class BranchManager(models.Manager["Branch"]):
             return self.all()
         return self.filter(pk=profile.branch_id)
 
+
 class Branch(models.Model):
     name = models.CharField(max_length=100)
     city = models.CharField(max_length=100)
@@ -42,6 +43,22 @@ class Branch(models.Model):
     def __str__(self):
         
         return self.name
+    
+class Profile(models.Model):
+
+    ROLE_CHOICES = [
+        ('admin','Admin'),
+        ('staff','Personel'),
+    ]
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    phone_number = models.CharField(max_length=20, blank=True)
+    branch = models.ForeignKey(Branch, on_delete=models.PROTECT, null=True, blank=True)
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='staff')
+
+    def __str__(self):
+        return f"{self.user.username} - {self.role}"
+    
 
 class CarModel(models.Model):
 
@@ -113,21 +130,7 @@ class CarImage(models.Model):
     def __str__(self):
         return f"{self.car} - {self.order}"
         
-class Profile(models.Model):
 
-    ROLE_CHOICES = [
-        ('admin','Admin'),
-        ('staff','Personel'),
-    ]
-
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    phone_number = models.CharField(max_length=20, blank=True)
-    branch = models.ForeignKey(Branch, on_delete=models.PROTECT, null=True, blank=True)
-    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='staff')
-
-    def __str__(self):
-        return f"{self.user.username} - {self.role}"
-    
 class Customer(models.Model):
     #musteri kendi hesabiyla (self-servis) kayit olup giris yaparsa bu alan doluyor
     #personelin elle olusturdugu (hesabi olmayan/walk-in) musterilerde bos kaliyor
