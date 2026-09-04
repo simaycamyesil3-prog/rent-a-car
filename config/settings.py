@@ -118,14 +118,17 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 #collectstatic'in topladığı dosyalar burada birikiyor, whitenoise buradan servis ediyor
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-#statik dosyalar icin: canlida (DEBUG=False) whitenoise'un sikistirilmis deposu,
-#yerelde Django'nun basit varsayilani kullaniliyor
+#statik dosyalar icin basit depoyu kullaniyoruz (hem yerelde hem canlida). Whitenoise
+#middleware'i zaten dosyalari sikistirip hizli sunuyor - Manifest/Compressed gibi
+#"her CSS/JS referansini onceden dogrula" yapan gelismis modu kullanmiyoruz, cunku
+#Django admin panelinin bazi vendor (select2 dil dosyalari, ikon gibi) dosyalari bu
+#Django surumunde eksik oldugundan o dogrulama build'i defalarca hatayla durdurdu
 STORAGES = {
     'default': {
         'BACKEND': 'django.core.files.storage.FileSystemStorage',
     },
     'staticfiles': {
-        'BACKEND': 'config.storage_backends.LenientStaticFilesStorage' if not DEBUG else 'django.contrib.staticfiles.storage.StaticFilesStorage',
+        'BACKEND': 'django.contrib.staticfiles.storage.StaticFilesStorage',
     },
 }
 
