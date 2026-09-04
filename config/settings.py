@@ -32,7 +32,11 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    #whitenoise'un collectstatic'i kendi versiyonuyla değiştirdiği gibi, cloudinary_storage
+    #de staticfiles'tan once gelmesi gereken bir app
+    'cloudinary_storage',
     'django.contrib.staticfiles',
+    'cloudinary',
     'main',
     
 ]
@@ -114,17 +118,29 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 #collectstatic'in topladığı dosyalar burada birikiyor, whitenoise buradan servis ediyor
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-#canlıda (DEBUG=False) whitenoise'un sıkıştırıp önbelleklenebilir hale getirdiği
-#statik dosya deposunu kullanıyoruz, yerelde eski basit yöntem yeterli
-if not DEBUG:
-    STORAGES = {
-        'default': {
-            'BACKEND': 'django.core.files.storage.FileSystemStorage',
-        },
-        'staticfiles': {
-            'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage',
-        },
+#statik dosyalar icin: canlida (DEBUG=False) whitenoise'un sikistirilmis deposu,
+#yerelde Django'nun basit varsayilani kullaniliyor
+STORAGES = {
+    'default': {
+        'BACKEND': 'django.core.files.storage.FileSystemStorage',
+    },
+    'staticfiles': {
+        'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage' if not DEBUG else 'django.contrib.staticfiles.storage.StaticFilesStorage',
+    },
+}
+
+#arac fotograflari Render'in kalici olmayan diskine degil Cloudinary'ye (ucretsiz bulut
+#depolama) yukleniyor - yoksa her deploy'da (ve 15 dk hareketsizlikten sonra container
+#yeniden baslayinca) yuklenen fotograflar silinir. Bu ortam degiskenleri (Render'da)
+#tanimli degilse (yerelde calisirken) hicbir sey degismiyor, eski media/ klasoru kullanilir
+CLOUDINARY_CLOUD_NAME = os.environ.get('CLOUDINARY_CLOUD_NAME')
+if CLOUDINARY_CLOUD_NAME:
+    CLOUDINARY_STORAGE = {
+        'CLOUD_NAME': CLOUDINARY_CLOUD_NAME,
+        'API_KEY': os.environ.get('CLOUDINARY_API_KEY'),
+        'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET'),
     }
+    STORAGES['default'] = {'BACKEND': 'cloudinary_storage.storage.MediaCloudinaryStorage'}
 
 
 MEDIA_URL = '/media/'

@@ -2,3 +2,5 @@ Django==6.1
 Pillow==12.3.0
 whitenoise
 gunicorn
+cloudinary
+django-cloudinary-storage

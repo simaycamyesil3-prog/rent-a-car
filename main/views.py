@@ -184,7 +184,7 @@ def available_cars(request: HttpRequest):
 
     if is_staff:
         branches = Branch.objects.for_user(user)
-        cars = car_manager.for_user(user).filter(status='available')
+        cars = car_manager.for_user(user).select_related('car_model').filter(status='available')
     else:
         #müşteri önce anasayfadaki arama kutusundan şube ve tarih seçmeli
         #bu bilgiler olmadan (ör. linke direkt tıklayarak) sayfaya gelinirse aramayı yaptırmak için anasayfaya geri gönderiyoruz
@@ -192,7 +192,7 @@ def available_cars(request: HttpRequest):
             return redirect('index')
         #müşteri belirli bir şubeye bağlı değil, tüm şubelerdeki müsait araçları görebilir
         branches = Branch.objects.all()
-        cars = car_manager.filter(status='available')
+        cars = car_manager.select_related('car_model').filter(status='available')
     #bakım ve transferdeki araçları filtreliyor müsait gözükmemesi için 
 
     #alış şubesi seçimi ekledik
