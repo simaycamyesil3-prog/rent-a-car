@@ -143,6 +143,11 @@ if CLOUDINARY_CLOUD_NAME:
     STORAGES['default'] = {'BACKEND': 'cloudinary_storage.storage.MediaCloudinaryStorage'}
 
 
+#cloudinary_storage paketinin kendi collectstatic komutu, Django'nun eski (STORAGES
+#sozlugunden onceki) STATICFILES_STORAGE ayarini kontrol ediyor - biz yeni formati
+#kullandigimiz icin bu satir olmadan AttributeError veriyordu, geriye donuk uyumluluk icin ekliyoruz
+STATICFILES_STORAGE = STORAGES['staticfiles']['BACKEND']
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 LOGIN_REDIRECT_URL = 'post_login_redirect'
