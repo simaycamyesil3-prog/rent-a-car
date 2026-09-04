@@ -3,6 +3,8 @@ import os
 from pathlib import Path
 from typing import Any
 
+import dj_database_url
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -76,11 +78,16 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 
 
+#Render'in ucretsiz web servisinde disk kalici degil (her deploy'da ve 15 dk
+#hareketsizlik sonrasi sifirlaniyor), bu yuzden SQLite yerine kalici bir Postgres
+#veritabani kullaniyoruz. DATABASE_URL ortam degiskeni Render'da tanimliysa oraya
+#baglaniyoruz; tanimli degilse (yerel gelistirmede) eskisi gibi SQLite kullaniliyor,
+#yani kendi bilgisayarimda hicbir sey degismiyor
 DATABASES: dict[str, dict[str, Any]] = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
+        conn_max_age=600,
+    )
 }
 
 
