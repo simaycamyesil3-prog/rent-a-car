@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block title %}Rezervasyon Yap{% endblock %}
+
+{% block content %}
+<h2>Rezervasyon Yap</h2>
+<p>{{ car.car_model }} - {{ car.plate }}</p>
+
+{% if error %}
+    <div class="alert alert-danger">{{ error }}</div>
+{% endif %}
+
+<form method="post">
+    {% csrf_token %}
+
+    <div class="form-group">
+        <label>Başlangıç Tarihi:</label>
+        <input type="date" name="start_date" id="start_date" class="form-control" required>
+    </div>
+
+    <div class="form-group">
+        <label>Bitiş Tarihi:</label>
+        <input type="date" name="end_date" id="end_date" class="form-control" required>
+    </div>
+
+    <div class="form-group">
+        <label>Bırakış Şubesi:</label>
+        <select name="dropoff_branch" class="form-control" required>
+            {% for branch in branches %}
+                <option value="{{ branch.pk }}">{{ branch.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    {% if customer_profile %}
+        <div class="alert alert-secondary">
+            Müşteri bilgileri hesabından alınacak: <strong>{{ customer_profile.first_name }} {{ customer_profile.last_name }}</strong> ({{ customer_profile.email }})
+        </div>
+    {% else %}
+        <div class="form-group">
+            <label>Ad:</label>
+            <input type="text" name="first_name" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label>Soyad:</label>
+            <input type="text" name="last_name" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label>E-posta:</label>
+            <input type="email" name="email" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label>Telefon:</label>
+            <input type="text" name="phone_number" class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label>Adres:</label>
+            <input type="text" name="address" class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label>Kimlik No:</label>
+            <input type="text" name="identity_number" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label>Ehliyet No:</label>
+            <input type="text" name="license_number" class="form-control" required>
+        </div>
+    {% endif %}
+
+    <button type="submit" class="btn btn-primary">Rezervasyonu Onayla</button>
+</form>
+<script>
+    const startDateInput = document.getElementById('start_date');
+    const endDateInput = document.getElementById('end_date');
+
+    startDateInput.addEventListener('change', function() {
+        endDateInput.min = startDateInput.value;
+    });
+</script>
+{% endblock %}

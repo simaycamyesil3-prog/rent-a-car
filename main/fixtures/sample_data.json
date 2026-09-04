@@ -1,0 +1,193 @@
+[
+    {
+        "model": "main.branch",
+        "pk": 1,
+        "fields": {
+            "name": "İstanbul Şubesi",
+            "city": "İstanbul",
+            "address": "Kadıköy, İstanbul",
+            "location": "40.9909, 29.0304"
+        }
+    },
+    {
+        "model": "main.branch",
+        "pk": 2,
+        "fields": {
+            "name": "Ankara Şubesi",
+            "city": "Ankara",
+            "address": "Çankaya, Ankara",
+            "location": "39.9334, 32.8597"
+        }
+    },
+    {
+        "model": "main.carmodel",
+        "pk": 1,
+        "fields": {
+            "brand": "Toyota",
+            "model_name": "Corolla",
+            "year": 2020,
+            "transmission": "Otomatik",
+            "fuel_type": "Benzin",
+            "seat_count": 5,
+            "doors": 4,
+            "luggage_capacity": 10,
+            "price_per_day": 2000.00,
+            "segment": "sedan",
+            "body_type": "standard"
+        }
+    },
+    {
+        "model": "main.carmodel",
+        "pk": 2,
+        "fields": {
+            "brand": "Honda",
+            "model_name": "Civic",
+            "year": 2021,
+            "transmission": "Manuel",
+            "fuel_type": "Dizel",
+            "seat_count": 5,
+            "doors": 4,
+            "luggage_capacity": 8,
+            "price_per_day": 1800.00,
+            "segment": "sedan",
+            "body_type": "standard"
+        }
+    },
+    {
+        "model": "main.car",
+        "pk": 1,
+        "fields": {
+            "car_model": 1,
+            "current_branch": 1,
+            "plate": "AA 643 G",
+            "color": "Beyaz",
+            "km": 15000,
+            "status": "available"
+        }
+    },
+    {
+        "model": "main.car",
+        "pk": 2,
+        "fields": {
+            "car_model": 2,
+            "current_branch": 2,
+            "plate": "AA 953 D",
+            "color": "Siyah",
+            "km": 10000,
+            "status": "available"
+        }
+    },
+    {
+        "model": "main.customer",
+        "pk": 1,
+        "fields": {
+            "first_name": "Ahmet",
+            "last_name": "Yılmaz",
+            "email": "ahmet.yilmaz@example.com",
+            "phone_number": "5551112233",
+            "address": "Kadıköy, İstanbul",
+            "identity_number": "11111111111",
+            "license_number": "B123456"
+        }
+    },
+    {
+        "model": "main.customer",
+        "pk": 2,
+        "fields": {
+            "first_name": "Ayşe",
+            "last_name": "Demir",
+            "email": "ayse.demir@example.com",
+            "phone_number": "5552223344",
+            "address": "Çankaya, Ankara",
+            "identity_number": "22222222222",
+            "license_number": "B654321"
+        }
+    },
+    {
+        "model": "main.carmodel",
+        "pk": 3,
+        "fields": {
+            "brand": "Ford",
+            "model_name": "Focus",
+            "year": 2022,
+            "transmission": "Otomatik",
+            "fuel_type": "Benzin",
+            "seat_count": 5,
+            "doors": 4,
+            "luggage_capacity": 9,
+            "price_per_day": 1900.00,
+            "segment": "sedan",
+            "body_type": "standard"
+        }
+    },
+    {
+        "model": "main.car",
+        "pk": 3,
+        "fields": {
+            "car_model": 3,
+            "current_branch": 1,
+            "plate": "AB 245 K",
+            "color": "Beyaz",
+            "km": 18500,
+            "status": "available"
+        }
+    },
+    {
+        "model": "main.carmodel",
+        "pk": 4,
+        "fields": {
+            "brand": "Volkswagen",
+            "model_name": "Passat",
+            "year": 2021,
+            "transmission": "Otomatik",
+            "fuel_type": "Dizel",
+            "seat_count": 5,
+            "doors": 4,
+            "luggage_capacity": 10,
+            "price_per_day": 2300.00,
+            "segment": "sedan",
+            "body_type": "standard"
+        }
+    },
+    {
+        "model": "main.car",
+        "pk": 4,
+        "fields": {
+            "car_model": 4,
+            "current_branch": 2,
+            "plate": "BB 781 M",
+            "color": "Gri",
+            "km": 24000,
+            "status": "available"
+       }
+    },
+    {
+        "model": "main.carmodel",
+        "pk": 5,
+        "fields": {
+            "brand": "Hyundai",
+            "model_name": "Tucson",
+            "year": 2023,
+            "transmission": "Otomatik",
+            "fuel_type": "Benzin",
+            "seat_count": 5,
+            "doors": 4,
+            "luggage_capacity": 12,
+            "price_per_day": 2800.00,
+            "segment": "suv",
+            "body_type": "standard"
+        }
+    },
+    { 
+        "model": "main.car",
+        "pk": 5,
+        "fields": {
+            "car_model": 5,
+            "current_branch": 1,
+            "plate": "CC 512 T",
+            "color": "Siyah",
+            "km": 9200,
+            "status": "available"
+        }
+    }
+]

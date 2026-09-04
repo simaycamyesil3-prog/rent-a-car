@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Ana Sayfa{% endblock %}
+
+{% block content %}
+<div style="background-color:#101010; color:#fff; border-radius:16px; padding:3rem 2rem; margin-top:1.5rem; text-align:center;">
+    <h1 style="font-weight:700; letter-spacing:.5px; margin-bottom:.5rem;">Aracını Seç, Yola Çık</h1>
+    <p style="color:#adb5bd; margin-bottom:2rem;">Şubeni ve tarihlerini seç, uygun araçları hemen gör.</p>
+
+    <form method="get" action="{% url 'start_search' %}" style="max-width:700px; margin:0 auto; background:#1c1c1e; border-radius:12px; padding:1.5rem; display:flex; flex-wrap:wrap; gap:1rem; align-items:flex-end; text-align:left;">
+        <div style="flex:1; min-width:160px;">
+            <label style="font-size:.8rem; color:#adb5bd;">Şube</label>
+            <select name="branch" class="form-control" required>
+                <option value="">Şube seçin</option>
+                {% for branch in branches %}
+                    <option value="{{ branch.pk }}">{{ branch.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div style="flex:1; min-width:140px;">
+            <label style="font-size:.8rem; color:#adb5bd;">Alış Tarihi</label>
+            <input type="date" name="start_date" id="start_date" class="form-control" required>
+        </div>
+        <div style="flex:1; min-width:140px;">
+            <label style="font-size:.8rem; color:#adb5bd;">Bırakış Tarihi</label>
+            <input type="date" name="end_date" id="end_date" class="form-control" required>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-warning" style="font-weight:600;">Araçları Gör</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    const startDateInput = document.getElementById('start_date');
+    const endDateInput = document.getElementById('end_date');
+    startDateInput.addEventListener('change', function () {
+        endDateInput.min = startDateInput.value;
+    });
+</script>
+{% endblock %}

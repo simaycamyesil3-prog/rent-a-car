@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Araç Transferi{% endblock %}
+
+{% block content %}
+<h2>Araç Transferi</h2>
+
+{% if error %}
+    <div class="alert alert-danger">{{ error }}</div>
+{% endif %}
+
+<form method="post">
+    {% csrf_token %}
+
+    <div class="form-group">
+        <label>Araç:</label>
+        <select name="car" class="form-control" required>
+            {% for car in cars %}
+                <option value="{{ car.pk }}">{{ car.car_model }} - {{ car.plate }} ({{ car.current_branch.name }})</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Hedef Şube:</label>
+        <select name="to_branch" class="form-control" required>
+            {% for branch in branches %}
+                <option value="{{ branch.pk }}">{{ branch.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Transfer Et</button>
+</form>
+{% endblock %}

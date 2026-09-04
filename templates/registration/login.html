@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}Giriş Yap{% endblock %}
+
+{% block content %}
+<div style="max-width:420px; margin:3rem auto;">
+    <h2 class="mb-4">Giriş Yap</h2>
+
+    {% if form.errors %}
+        <div class="alert alert-danger">Kullanıcı adı veya şifre hatalı.</div>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="hidden" name="next" value="{{ next }}">
+        <button type="submit" class="btn btn-primary btn-block">Giriş Yap</button>
+    </form>
+
+    <p class="mt-3">Hesabın yok mu? <a href="{% url 'register' %}{% if next %}?next={{ next|urlencode }}{% endif %}">Kayıt Ol</a></p>
+</div>
+{% endblock %}

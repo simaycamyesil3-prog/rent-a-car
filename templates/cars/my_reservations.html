@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}Rezervasyonlarım{% endblock %}
+
+{% block content %}
+<h2 class="mt-4 mb-4">Rezervasyonlarım</h2>
+
+{% if reservations %}
+<div class="list-group">
+    {% for r in reservations %}
+        <div class="list-group-item mb-2" style="border-radius:10px;">
+            <div class="d-flex justify-content-between">
+                <strong>{{ r.car.car_model }} - {{ r.car.plate }}</strong>
+                <span>{{ r.get_status_display }}</span>
+            </div>
+            <div>{{ r.start_date }} → {{ r.end_date }} · {{ r.pickup_branch }} → {{ r.dropoff_branch }}</div>
+            <div>Toplam: ₺{{ r.total_price }}</div>
+            {% if r.status == 'pending' or r.status == 'confirmed' %}
+                <form method="post" action="{% url 'cancel_reservation' r.pk %}" class="mt-2" onsubmit="return confirm('Bu rezervasyonu iptal etmek istediğine emin misin?');">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-sm btn-outline-danger">Rezervasyonu İptal Et</button>
+                </form>
+            {% endif %}
+        </div>
+    {% endfor %}
+</div>
+{% else %}
+<p>Henüz bir rezervasyonun yok. <a href="{% url 'available_cars' %}">Araçlara göz at</a>.</p>
+{% endif %}
+{% endblock %}

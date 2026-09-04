@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}Araç İade{% endblock %}
+
+{% block content %}
+<h2>Araç İade</h2>
+
+{% if error %}
+    <div class="alert alert-danger">{{ error }}</div>
+{% endif %}
+
+<div class="card mb-3">
+    <div class="card-body">
+        <p><strong>Plaka:</strong> {{ reservation.car.plate }}</p>
+        <p><strong>Km:</strong> {{ reservation.car.km }}</p>
+        <p><strong>Durum:</strong> {{ reservation.car.status }}</p>
+        <p><strong>Müşteri:</strong> {{ reservation.customer.first_name }} {{ reservation.customer.last_name }}</p>
+        <p><strong>Ehliyet No:</strong> {{ reservation.customer.license_number }}</p>
+    </div>
+</div>
+
+<h3>Araç Görselleri</h3>
+<div class="mb-3">
+    {% for image in reservation.car.carimage_set.all %}
+        <img src="{{ image.image.url }}" width="200" class="img-thumbnail mr-2 mb-2">
+    {% endfor %}
+</div>
+
+<form method="post">
+    {% csrf_token %}
+
+    <div class="form-group">
+        <label>İade Km:</label>
+        <input type="number" name="return_km" class="form-control" required>
+    </div>
+
+    <div class="form-group">
+        <label>Hasar Notu:</label>
+        <textarea name="damage_notes" class="form-control"></textarea>
+    </div>
+
+    <div class="form-group">
+        <label>İade Tarihi:</label>
+        <input type="date" name="return_date" class="form-control" required>
+    </div>
+
+    <button type="submit" class="btn btn-primary">İade Et</button>
+</form>
+{% endblock %}

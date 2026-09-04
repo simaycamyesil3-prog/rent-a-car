@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}Araç Detayı{% endblock %}
+
+{% block content %}
+<div class="card mb-3">
+    <div class="card-body">
+        <h1 class="card-title">{{ car.car_model }}</h1>
+        <p><strong>Plate:</strong> {{ car.plate }}</p>
+        <p><strong>Color:</strong> {{ car.color }}</p>
+        <p><strong>km:</strong> {{ car.km }}</p>
+        <p><strong>Status:</strong> {{ car.get_status_display }}</p>
+        <p><strong>branch:</strong> {{ car.current_branch }}</p>
+    </div>
+</div>
+
+<h2>Car Images</h2>
+{% if car.carimage_set.all %}
+    <div class="mb-3">
+        {% for image in car.carimage_set.all %}
+            <img src="{{ image.image.url }}" alt="Car Image" width="300" class="img-thumbnail mr-2 mb-2">
+        {% endfor %}
+    </div>
+{% else %}
+    <p>No images available for this car.</p>
+{% endif %}
+
+{% if car.status == 'available' %}
+<a href="{% url 'rezervation' car.pk %}" class="btn btn-primary">Rezervasyon Yap</a>
+{% endif %}
+{% endblock %}

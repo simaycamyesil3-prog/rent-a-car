@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %}Araç Teslimi{% endblock %}
+
+{% block content %}
+<h2>Araç Teslimi</h2>
+
+{% if error %}
+    <div class="alert alert-danger">{{ error }}</div>
+{% endif %}
+
+<div class="card mb-3">
+    <div class="card-body">
+        <p><strong>Plaka:</strong> {{ reservation.car.plate }}</p>
+        <p><strong>Km:</strong> {{ reservation.car.km }}</p>
+        <p><strong>Durum:</strong> {{ reservation.car.status }}</p>
+        <p><strong>Müşteri:</strong> {{ reservation.customer.first_name }} {{ reservation.customer.last_name }}</p>
+        <p><strong>Ehliyet No:</strong> {{ reservation.customer.license_number }}</p>
+    </div>
+</div>
+
+<h3>Araç Görselleri</h3>
+<div class="mb-3">
+    {% for image in reservation.car.carimage_set.all %}
+        <img src="{{ image.image.url }}" width="200" class="img-thumbnail mr-2 mb-2">
+    {% endfor %}
+</div>
+
+{% if alternative_cars %}
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label>Alternatif Araç Seç:</label>
+            <select name="substitute_car" class="form-control" required>
+                {% for car in alternative_cars %}
+                    <option value="{{ car.pk }}">{{ car.car_model }} - {{ car.plate }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-warning">Aracı Değiştir</button>
+    </form>
+{% else %}
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label>Araç Görseli:</label>
+            <input type="file" name="images" multiple class="form-control-file">
+        </div>
+
+        <div class="form-group">
+            <label>Plaka Doğrulama:</label>
+            <input type="text" name="plate" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label>Çıkış Km:</label>
+            <input type="number" name="delivery_km" class="form-control" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Teslim Et</button>
+    </form>
+{% endif %}
+{% endblock %}
